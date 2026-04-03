@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">NDEF Tag Emulator</string>
+    <string name="emulation_type">Emulation Type</string>
+    <string name="type_uri">URI</string>
+    <string name="type_text">Text</string>
+    <string name="type_saved_tag">Saved Tag</string>
+    <string name="hint_uri">Enter URI</string>
+    <string name="hint_text">Enter text</string>
+    <string name="apply">Apply</string>
+    <string name="status_label">Status</string>
+    <string name="not_emulating">Not emulating</string>
+    <string name="reader_instruction">Hold an NFC tag near the device to read it</string>
+    <string name="save_tag">Save Tag</string>
+    <string name="tag_name">Tag name</string>
+    <string name="no_saved_tags">No saved tags</string>
+    <string name="rename">Rename</string>
+    <string name="delete">Delete</string>
+</resources>

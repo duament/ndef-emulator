@@ -14,6 +14,7 @@ internal object NdefDataSerializer {
     internal fun serializeData(ndefData: NdefData): String? {
         try {
             val ndefDataType: NdefDataType = when (ndefData) {
+                is MultiRecordNdefData -> NdefDataType.MULTI_RECORD
                 is NdefRecordData -> NdefDataType.NDEF_RECORD
                 is TextNdefData -> NdefDataType.PLAIN_TEXT
                 is UriNdefData -> NdefDataType.GENERIC_URI
@@ -31,6 +32,19 @@ internal object NdefDataSerializer {
                         DataUtil.toHexStringLowercase(ndefData.id, ""),
                         DataUtil.toHexStringLowercase(ndefData.payload, ""),
                     ).joinToString(delimeter))
+                }
+                NdefDataType.MULTI_RECORD -> {
+                    if (ndefData !is MultiRecordNdefData) return null
+                    sb.append(ndefData.records.size.toString())
+                    for (record in ndefData.records) {
+                        sb.append(delimeter)
+                        sb.append(arrayOf(
+                            record.tnf.toString(),
+                            DataUtil.toHexStringLowercase(record.type, ""),
+                            DataUtil.toHexStringLowercase(record.id, ""),
+                            DataUtil.toHexStringLowercase(record.payload, ""),
+                        ).joinToString(delimeter))
+                    }
                 }
                 NdefDataType.PLAIN_TEXT -> {
                     if (ndefData !is TextNdefData) return null
@@ -89,6 +103,19 @@ internal object NdefDataSerializer {
                         DataUtil.hexStringToByteArray(values[4]),
                     )
                 )
+                NdefDataType.MULTI_RECORD -> {
+                    val count = values[1].toInt()
+                    val records = (0 until count).map { i ->
+                        val base = 2 + i * 4
+                        NdefRecordData(
+                            values[base].toShort(),
+                            DataUtil.hexStringToByteArray(values[base + 1]),
+                            DataUtil.hexStringToByteArray(values[base + 2]),
+                            DataUtil.hexStringToByteArray(values[base + 3]),
+                        )
+                    }
+                    MultiRecordNdefData(records)
+                }
                 NdefDataType.PLAIN_TEXT -> TextNdefData(values[1])
                 NdefDataType.GENERIC_URI -> UriNdefData(values[1])
                 NdefDataType.WIFI_CONFIG -> WifiNetworkNdefData(values[1], WifiNetworkNdefDataProtectionType.valueOf(values[2]), values[3])

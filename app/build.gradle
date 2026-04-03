@@ -1,0 +1,56 @@
+plugins {
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.ksp)
+}
+
+android {
+    namespace "com.luigivampa92.ndeftagemulator"
+    compileSdk rootProject.ext.versionSdkTarget
+
+    defaultConfig {
+        applicationId "com.luigivampa92.ndeftagemulator"
+        minSdk rootProject.ext.versionSdkMin
+        targetSdk rootProject.ext.versionSdkTarget
+        versionCode rootProject.ext.versionCodeApp
+        versionName rootProject.ext.versionNameApp
+    }
+
+    buildTypes {
+        debug {
+            debuggable true
+            minifyEnabled false
+        }
+        release {
+            debuggable false
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility rootProject.ext.versionJava
+        targetCompatibility rootProject.ext.versionJava
+        encoding "UTF-8"
+    }
+
+    kotlinOptions {
+        jvmTarget = rootProject.ext.versionKotlin
+    }
+}
+
+dependencies {
+    implementation project(':ndefemulation')
+    implementation libs.androidx.core.ktx
+    implementation libs.appcompat
+    implementation libs.material
+    implementation libs.androidx.viewpager2
+    implementation libs.room.runtime
+    implementation libs.room.ktx
+    ksp libs.room.compiler
+    implementation libs.lifecycle.viewmodel
+    implementation libs.lifecycle.livedata
+    implementation libs.lifecycle.runtime
+    implementation libs.fragment.ktx
+}

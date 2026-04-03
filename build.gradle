@@ -2,13 +2,14 @@ plugins {
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.jetbrains.kotlin.android) apply false
     alias(libs.plugins.android.library) apply false
+    alias(libs.plugins.ksp) apply false
 }
 
 ext {
     versionJava = JavaVersion.VERSION_1_8
     versionKotlin = "1.8"
     versionSdkMin = 21
-    versionSdkTarget = 35
+    versionSdkTarget = 36
     versionCodeApp = 1
     versionNameApp = "1.0.0"
     versionNameLibrary = "1.0.0"

@@ -1,0 +1,1 @@
+-keepclassmembers class * extends androidx.room.RoomDatabase { *; }
